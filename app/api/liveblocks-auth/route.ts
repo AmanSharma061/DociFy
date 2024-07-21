@@ -33,6 +33,6 @@ export async function POST(request: Request) {
         },
         { userInfo: user.info },
     );
-
+    
     return new Response(body, { status });
 }

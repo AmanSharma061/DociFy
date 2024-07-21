@@ -1,5 +1,5 @@
 import { Liveblocks } from "@liveblocks/node";
 
 export const liveblocks = new Liveblocks({
-    secret: "sk_dev__JbMu72VzWUEa8DKXQwyQSa3ewucx3xwmUQe0ncWhKjEqlQ-JIOW5EUCCRwRwo_I",
+    secret: "sk_dev_PoWp6rtNY-uQXbojeZDAbJPqXDdOHfZRvQmvK8YO7C5W1hlU7svaeq8lOPymcMRP",
 });

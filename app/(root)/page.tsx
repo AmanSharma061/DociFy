@@ -1,14 +1,21 @@
 import AddComponentBtn from "@/components/AddComponentBtn";
 import Header from "@/components/Header";
+import { getDocuments } from "@/lib/actions/room.actions";
+import { dateConverter } from "@/utils";
+import { liveblocks } from "@/utils/liveblocks";
 import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 const documents = [];
-const Home = async() => {
+const Home = async () => {
+  const user = await currentUser();
+  const { data: rooms } = await getDocuments({
+    email: user?.emailAddresses[0]?.emailAddress
+  });
+  if (!user) redirect("/sign-in");
 
-  const user=await currentUser()
-  if(!user) redirect('/sign-in')
   return (
     <main className="home-container">
       <Header className="sticky top-0 left-0">
@@ -18,8 +25,43 @@ const Home = async() => {
           </SignedIn>
         </div>
       </Header>
-      {documents?.length > 0 ? (
-        <div></div>
+      {rooms?.length > 0 ? (
+        <div className="document-list-container">
+          <div className="document-list-title">
+            <h3 className="text-28-semibold">All documents</h3>
+            <AddComponentBtn
+              userId={user?.id}
+              email={user?.emailAddresses[0]?.emailAddress}
+            />
+          </div>
+          <ul className="document-ul">
+            {rooms?.map((room: any, index: number) => (
+              <li key={index} className="document-list-item">
+                <Link
+                  href={`/documents/${room?.id}`}
+                  className="flex flex-1 items-center gap-4"
+                >
+                  <div className="hidden rounded-md bg-drak-500 p-2 sm:block">
+                    <Image
+                      src={"/assets/icons/doc.svg"}
+                      alt="file"
+                      width={40}
+                      height={40}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <p className="line-clamp-1 text-lg">
+                      {room?.metadata?.title}
+                    </p>
+                    <p className="text-sm font-light text-blue-100">
+                      Created about {dateConverter(room?.createdAt)}
+                    </p>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       ) : (
         <div className="document-list-empty">
           <Image
@@ -28,11 +70,8 @@ const Home = async() => {
             alt="Document"
             src={"/assets/icons/doc.svg"}
           />
-          <AddComponentBtn userId={user?.id} email={user?.emailAddresses[0]?.emailAddress}/>
         </div>
       )}
-
-
     </main>
   );
 };

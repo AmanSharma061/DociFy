@@ -1,5 +1,6 @@
 'use server'
 import { parseStringify } from "@/utils";
+import { liveblocks } from "@/utils/liveblocks";
 import { clerkClient } from "@clerk/nextjs/server";
 
 export const getClerkUsers = async ({ userIds }:{userIds:  string[]}) => {
@@ -22,5 +23,23 @@ export const getClerkUsers = async ({ userIds }:{userIds:  string[]}) => {
         console.log(`Error finding users from clerk`, error)
     }
 
+
+}
+
+export const getUsersList=async({text,roomId}:{text:string,roomId:string})=>{
+    try {
+        const room=await liveblocks.getRoom(roomId);
+
+        const roomUsers= Object.keys(room?.usersAccesses);
+
+        if(text.length>0){
+            let users=roomUsers.filter((email)=>email.toLowerCase()?.includes(text?.toLowerCase()));
+            return users
+        }
+
+        return parseStringify(roomUsers);
+    } catch (error) {
+        
+    }
 
 }

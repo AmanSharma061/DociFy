@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import { Pen, PencilIcon, PenIcon, PenSquare, Trash } from "lucide-react";
 import { Input } from "./ui/input";
 import { updateDocument } from "@/lib/actions/room.actions";
+import ShareModal from "./ShareModal";
 const CollaborativeRoom = ({
   roomId,
   roomMetadata,
@@ -59,68 +60,79 @@ const CollaborativeRoom = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [documentTitle,roomId]);
+  }, [documentTitle, roomId]);
 
-  useEffect(()=>{
-if(inputRef.current && editing){
-  inputRef.current.focus()
-}
-  },[editing])
+  useEffect(() => {
+    if (inputRef.current && editing) {
+      inputRef.current.focus();
+    }
+  }, [editing]);
   return (
-    <Provider>
-      <RoomProvider id={roomId}>
-        <ClientSideSuspense fallback={<Loader />}>
-          <div className="collaborative-room">
-            <Header>
-              <div
-                ref={containerRef}
-                className=" flex w-fit items-center justify-center gap-2"
-              >
-                {editing ? (
-                  <>
-                    <Input
-                      ref={inputRef}
-                      type="text"
-                      value={documentTitle}
-                      onKeyDown={updateTitleHandler}
-                      onChange={(e) => {
-                        setDocumentTitle(e.target.value);
-                      }}
-                      className="document-title-input"
-                    />
-                  </>
-                ) : (
-                  <>
-                    {" "}
-                    <p className="document-title">{documentTitle}</p>
-                  </>
-                )}
+    // <Provider>
+    <RoomProvider
+      id={roomId}
+      initialPresence={{
+        cursor: null
+      }}
+    >
+      <ClientSideSuspense fallback={<Loader />}>
+        <div className="collaborative-room">
+          <Header>
+            <div
+              ref={containerRef}
+              className=" flex w-fit items-center justify-center gap-2"
+            >
+              {editing ? (
+                <>
+                  <Input
+                    ref={inputRef}
+                    type="text"
+                    value={documentTitle}
+                    onKeyDown={updateTitleHandler}
+                    onChange={(e) => {
+                      setDocumentTitle(e.target.value);
+                    }}
+                    className="document-title-input"
+                  />
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <p className="document-title">{documentTitle}</p>
+                </>
+              )}
 
-                {!editing && currentUserType === "editor" && (
-                  <span
-                    className="cursor-pointer"
-                    onClick={() => setEditing(true)}
-                  >
-                    <PenSquare />
-                  </span>
-                )}
-              </div>
+              {!editing && currentUserType === "editor" && (
+                <span
+                  className="cursor-pointer"
+                  onClick={() => setEditing(true)}
+                >
+                  <PenSquare />
+                </span>
+              )}
+            </div>
 
-              <div className="w-full flex-1 flex  justify-end h-full gap-x-2  items-center">
-                <ActiveCollaboratorsList />
-                <SignedOut>
-                  <SignInButton />
-                </SignedOut>
-                <SignedIn>
-                  <UserButton />
-                </SignedIn>
-              </div>
-            </Header>
-            <Editor roomId={roomId} currentUserType={currentUserType}  />
-          </div>
-        </ClientSideSuspense>
-      </RoomProvider>
-    </Provider>
+            <div className="w-full flex-1 flex  justify-end h-full gap-x-2  items-center">
+              <ActiveCollaboratorsList />
+              <ShareModal 
+              roomId={roomId}
+              collaborators={users}
+              creatorId={roomMetadata?.creatorId}
+              currentUserType={currentUserType}
+              />
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            </div>
+          </Header>
+          <Editor roomId={roomId} currentUserType={currentUserType} />
+        </div>
+      </ClientSideSuspense>
+    </RoomProvider>
+    // </Provider>
   );
 };
 

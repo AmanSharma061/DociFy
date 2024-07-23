@@ -39,7 +39,7 @@ declare type SearchParamProps = {
   
   declare type UserTypeSelectorParams = {
     userType: string;
-    setUserType: React.Dispatch<React.SetStateAction<UserType>>;
+    setUserType: (value:UserType)=>void;
     onClickHandler?: (value: string) => void;
   };
   

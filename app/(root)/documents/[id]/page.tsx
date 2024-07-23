@@ -1,10 +1,9 @@
 'use server'
-import Provider from "@/app/Provider";
 import CollaborativeRoom from "@/components/CollaborativeRoom";
 import { getDocument } from "@/lib/actions/room.actions";
 import { getClerkUsers } from "@/lib/actions/users.actions";
 import { currentUser } from "@clerk/nextjs/server";
-import { redirect, useParams } from "next/navigation";
+import { redirect } from "next/navigation";
 
 const Document = async ({params:{id}}:SearchParamProps) => {
  const clerkUser = await  currentUser();

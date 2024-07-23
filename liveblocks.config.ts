@@ -37,6 +37,7 @@ declare global {
       // Example, attaching coordinates to a thread
       // x: number;
       // y: number;
+      
     };
 
     // Custom room info set with resolveRoomsInfo, for useRoomInfo

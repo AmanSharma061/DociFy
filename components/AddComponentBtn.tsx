@@ -9,10 +9,10 @@ import { useRouter } from "next/navigation";
 const AddComponentBtn = ({ userId, email }: AddDocumentBtnProps) => {
   const router = useRouter();
   const addbuttonHandler = async () => {
-    console.log("enjenj")
+
     try {
       const room = await createDocument({ userId, email });
-      console.log(room)
+    
       if (room) {
         router.push(`/documents/${room?.id}`);
       }

@@ -33,7 +33,7 @@ const Notifications = () => {
         <LiveblocksUIConfig 
           overrides={{
             INBOX_NOTIFICATION_TEXT_MENTION: (user: ReactNode) => (
-              <>{user} mentioned you.</>
+            <>{user} mentioned you.</>
             )
           }}
         >
@@ -52,7 +52,6 @@ const Notifications = () => {
                 kinds={{
                   thread: (props) => (
                     <InboxNotification.Thread {...props} 
-                      showActions={false}
                       showRoomName={false}
                     />
                   ),

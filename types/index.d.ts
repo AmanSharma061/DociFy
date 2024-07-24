@@ -68,6 +68,7 @@ declare type SearchParamProps = {
     roomMetadata: RoomMetadata;
     users: User[];
     currentUserType: UserType;
+    currentUserId:string
   };
   
   declare type AddDocumentBtnProps = {

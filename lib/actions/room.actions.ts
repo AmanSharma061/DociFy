@@ -16,7 +16,7 @@ export const createDocument = async ({ userId, email }: CreateDocumentParams) =>
         const usersAccesses: RoomAccesses = { [`${email}`]: ['room:write'] }
         const room = await liveblocks.createRoom(room_id, {
             metadata,
-            defaultAccesses: ['room:write'],
+            defaultAccesses: [],
             usersAccesses,
         }
         )

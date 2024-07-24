@@ -7,10 +7,7 @@ import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 
-import { HeadingNode, QuoteNode } from "@lexical/rich-text";
-import { ListNode, ListItemNode } from "@lexical/list";
-import Theme from "./plugins/Theme";
-import ToolbarPlugin from "./plugins/ToolbarPlugin";
+import { HeadingNode } from "@lexical/rich-text";
 import {
   FloatingComposer,
   FloatingThreads,
@@ -18,13 +15,13 @@ import {
   LiveblocksPlugin,
   useEditorStatus
 } from "@liveblocks/react-lexical";
-import Loader from "../Loader";
-import FloatingToolbarPlugin from "./plugins/FloatingToolbarPlugin";
-import { LiveList } from "@liveblocks/client";
 import { useThreads } from "@liveblocks/react/suspense";
-import { Thread } from "@liveblocks/react-ui";
-import FloatingToolbar from "./plugins/FloatingToolbarPlugin";
 import Comments from "../Comments";
+import Loader from "../Loader";
+import FloatingToolbar from "./plugins/FloatingToolbarPlugin";
+import Theme from "./plugins/Theme";
+import ToolbarPlugin from "./plugins/ToolbarPlugin";
+import { DeleteModal } from "../DeteletModal";
 // Catch any errors that occur during Lexical updates and log them
 // or throw them as needed. If you don't throw them, Lexical will
 // try to recover gracefully without losing user data.
@@ -57,6 +54,9 @@ export function Editor({
       <div className="editor-container size-full">
         <div className="toolbar-wrapper flex min-w-full justify-between">
           <ToolbarPlugin />
+          {
+            currentUserType==="creator" && <DeleteModal roomId={roomId}/>
+          }
           {/* delete Modal */}
         </div>
         <div className="editor-wrapper flex flex-col items-center justify-start">

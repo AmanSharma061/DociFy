@@ -11,10 +11,12 @@ import { Pen, PencilIcon, PenIcon, PenSquare, Trash } from "lucide-react";
 import { Input } from "./ui/input";
 import { updateDocument } from "@/lib/actions/room.actions";
 import ShareModal from "./ShareModal";
+import { currentUser } from "@clerk/nextjs/server";
 const CollaborativeRoom = ({
   roomId,
   roomMetadata,
   users,
+  currentUserId,
   currentUserType
 }: CollaborativeRoomProps) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -67,6 +69,7 @@ const CollaborativeRoom = ({
       inputRef.current.focus();
     }
   }, [editing]);
+ 
   return (
     // <Provider>
     <RoomProvider
@@ -114,12 +117,14 @@ const CollaborativeRoom = ({
 
             <div className="w-full flex-1 flex  justify-end h-full gap-x-2  items-center">
               <ActiveCollaboratorsList />
-              <ShareModal 
+             {
+              currentUserId===roomMetadata?.creatorId &&  <ShareModal 
               roomId={roomId}
               collaborators={users}
               creatorId={roomMetadata?.creatorId}
               currentUserType={currentUserType}
               />
+             }
               <SignedOut>
                 <SignInButton />
               </SignedOut>

@@ -13,6 +13,7 @@ import Provider from "../Provider";
 const documents = [];
 const Home = async () => {
   const user = await currentUser();
+
   const { data: rooms } = await getDocuments({
     email: user?.emailAddresses[0]?.emailAddress
   });

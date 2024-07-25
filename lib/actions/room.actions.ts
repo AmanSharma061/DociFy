@@ -66,14 +66,14 @@ export const getDocuments = async ({ email }: { email: string | undefined }) => 
     return parseStringify(rooms)
 }
 
-export const removeCollaborator = async ({ roomId, email }: {roomId: string, email: string}) => {
+export const removeCollaborator = async ({ roomId, email,userId }: {roomId: string, email: string, userId:string }) => {
     try {
       const room = await liveblocks.getRoom(roomId)
   
       if(room.metadata.email === email) {
         throw new Error('You cannot remove yourself from the document');
       }
-  
+        await liveblocks.deleteAllInboxNotifications({userId})
       const updatedRoom = await liveblocks.updateRoom(roomId, {
         usersAccesses: {
           [email]: null

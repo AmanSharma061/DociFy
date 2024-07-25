@@ -16,7 +16,7 @@ const Document = async ({ params: { id } }: SearchParamProps) => {
     userId: clerkUser?.emailAddresses[0].emailAddress
   });
   if (!room) {
-    redirect("/");
+    redirect("/not-found");
   }
   if (
     !Object?.keys(room?.usersAccesses)?.includes(

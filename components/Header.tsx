@@ -7,7 +7,7 @@ const Header = ({ children, className }: HeaderProps) => {
     <div className={cn("header", className)}>
       <Link href='/' className="md:flex-1">
         <Image 
-          src="/assets/images/docify.png"
+          src="/assets/images/Docify.png"
           alt="Logo with name"
           width={120}
           height={32}

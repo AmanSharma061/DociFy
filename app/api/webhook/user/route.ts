@@ -1,7 +1,10 @@
 
 import { connectDB } from '@/app/database/connection';
 import User from '@/app/database/models/user.model';
+import { deleteUser } from '@/lib/actions/users.actions';
 import { clerkClient, WebhookEvent } from '@clerk/nextjs/server';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 import { NextResponse } from 'next/server';
 type Payload = {
     data: any;
@@ -38,7 +41,11 @@ console.log(createdUser)
             }
         } else if (type === "user.deleted") {
             await connectDB();
+            const deletedUser=await deleteUser({userId:clerkData?.publicMetadata?.userId,email:user?.email})
             // const userExists = await User.({ clerkUserId: clerkData?.id });
+          
+            revalidatePath('/');
+            return NextResponse.json("",{status:200})
 
         }
     }

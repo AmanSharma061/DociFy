@@ -1,12 +1,10 @@
 'use server'
 import { connectDB } from "@/app/database/connection";
 import Room from "@/app/database/models/room.model";
-import User from "@/app/database/models/user.model";
 import { getAccessType, parseStringify } from "@/utils";
 import { liveblocks } from "@/utils/liveblocks";
-import { clerkClient, currentUser } from "@clerk/nextjs/server";
-import { AwardIcon } from "lucide-react";
-import { nanoid } from 'nanoid'
+import { currentUser } from "@clerk/nextjs/server";
+import { nanoid } from 'nanoid';
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
@@ -132,8 +130,6 @@ export const deleteDocument = async (roomId: string) => {
 
 export const updateDocumentAccess = async ({ roomId, email, userType, updatedBy }: ShareDocumentParams) => {
   try {
-    const clerkUser = await currentUser()
-
     const usersAccesses: RoomAccesses = {
       [email]: getAccessType(userType) as AccessType,
     }

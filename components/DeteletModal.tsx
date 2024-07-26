@@ -13,20 +13,25 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from "@/components/ui/dialog";
 
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 export const DeleteModal = ({ roomId }: DeleteModalProps) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const router = useRouter();
   const deleteDocumentHandler = async () => {
     setLoading(true);
 
     try {
-      await deleteDocument(roomId);
+      const res: any = await deleteDocument(roomId);
+
+      if (res?.error == false) {
+        router.push("/");
+      }
       setOpen(false);
     } catch (error) {
       console.log("Error notif:", error);

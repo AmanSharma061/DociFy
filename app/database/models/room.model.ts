@@ -3,6 +3,10 @@ import mongoose, { Mongoose, Schema } from "mongoose";
 
 
 const roomSchema = new Schema({
+    title: {
+        type: String,
+        required: true
+    },
     roomId: {
         type: String,
         required: true
@@ -16,18 +20,18 @@ const roomSchema = new Schema({
         ref: "User"
     },
     userAccess: [{
-        creatorId: {
+        email: {
             type: String,
             required: true
         },
-        userId: {
-            type: Schema.Types.ObjectId,
-            ref: "User"
+        accessType: {
+            type: String,
+            required: true
         },
     }],
-},{timestamps:true})
+}, { timestamps: true })
 
 
-const Room =mongoose.models["Room"]||mongoose.model("Room",roomSchema)
+const Room = mongoose.models["Room"] || mongoose.model("Room", roomSchema)
 
 export default Room

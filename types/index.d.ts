@@ -19,6 +19,7 @@ declare type SearchParamProps = {
   declare type CreateDocumentParams = {
     userId: string;
     email: string;
+    
   };
   
   declare type User = {
